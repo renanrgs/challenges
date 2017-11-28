@@ -26,6 +26,7 @@ public class Parser {
 		LocalDateTime filterDateTime = formatDate(parameters.get("startDate"), TIME_STAMP_PATTERN);
 		TypeDuration duration = TypeDuration.valueOf(parameters.get("duration").toUpperCase());
 		Integer threshold = Integer.valueOf(parameters.get("threshold")); 
+		
 		executeOperations(service, file, filterDateTime, duration, threshold); 
 	}
 
