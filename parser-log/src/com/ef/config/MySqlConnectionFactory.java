@@ -4,19 +4,16 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-
 public class MySqlConnectionFactory implements ConnectionFactory {
 
-	private String user;
-	private String password;
 	private String url;
+	private static final String USER = "root";
+	private static final String PASSWORD = "noprincipio";
 
-	public MySqlConnectionFactory(String user, String password) {
+	public MySqlConnectionFactory() {
 		super();
-		this.user = user;
-		this.password = password;
-		this.url = String.format("jdbc:mysql://localhost/test?useSSL=false&user",
-				new Object[] { "=", user, "&password=", password });
+		this.url = String.format("jdbc:mysql://localhost/test?useSSL=false&user%s%s%s%s", "=", USER, "&password=",
+				PASSWORD);
 	}
 
 	/**
@@ -29,14 +26,6 @@ public class MySqlConnectionFactory implements ConnectionFactory {
 			System.out.println(e.getMessage());
 			return null;
 		}
-	}
-
-	public String getPassword() {
-		return this.password;
-	}
-
-	public String getUser() {
-		return this.user;
 	}
 
 	public String getURL() {
