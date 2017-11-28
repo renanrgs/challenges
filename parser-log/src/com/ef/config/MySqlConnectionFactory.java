@@ -14,10 +14,10 @@ public class MySqlConnectionFactory implements ConnectionFactory {
 		super();
 		this.user = user;
 		this.password = password;
-		this.url = new StringBuffer("jdbc:mysql://localhost/test?useSSL=false&user").append("=").append(user)
-				.append("&").append("password=").append(password).toString();
+		this.url = String.format("jdbc:mysql://localhost/test?useSSL=false&user",
+				new Object[] { "=", user, "&password=", password });
 	}
-	
+
 	/**
 	 * Creates a new MySQL connection
 	 */
