@@ -1,6 +1,7 @@
 package com.ef.dao;
 
 import java.io.File;
+import java.sql.BatchUpdateException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +14,6 @@ import java.util.List;
 import com.ef.config.ConnectionFactory;
 import com.ef.model.AccessDTO;
 import com.ef.service.AccessService.TypeDuration;
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 public class AccessDAOImpl implements AccessDAO {
 
@@ -21,7 +21,7 @@ public class AccessDAOImpl implements AccessDAO {
 
 	private static final String SQL_SEARCH = "SELECT ip, COUNT(ip) AS quant FROM accesses WHERE access_date BETWEEN ? AND TIMESTAMP(TIMESTAMPADD(HOUR, ?, ?)) GROUP BY ip HAVING quant > ?";
 
-	private static final String SQL_INSERT = "INSERT INTO blocked_ip (ip, message, block_date) VALUES(?, ?, NOW())";
+	private static final String SQL_INSERT = "INSERT IGNORE INTO blocked_ip (ip, message) VALUES(?, ?)";
 
 	public void loadData(ConnectionFactory connectionFactory, File file) {
 		try (Connection conn = connectionFactory.getConnection();
@@ -51,7 +51,7 @@ public class AccessDAOImpl implements AccessDAO {
 		try (Connection conn = connection.getConnection(); PreparedStatement stmt = conn.prepareStatement(SQL_INSERT)) {
 			buildBatch(accesses, message, stmt);
 			stmt.executeBatch();
-		} catch(MySQLIntegrityConstraintViolationException e) {
+		} catch(BatchUpdateException e) {
 			System.out.println("The IP specified has been bloked already.");
 		} catch (SQLException e) {
 			e.printStackTrace();
