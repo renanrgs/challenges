@@ -14,6 +14,13 @@ public class RomanNumeralParser {
 		mapNumeralsRomans.put("C", 100);
 		mapNumeralsRomans.put("D", 500);
 		mapNumeralsRomans.put("M", 1000);
+		mapNumeralsRomans.put("IV", 4);
+		mapNumeralsRomans.put("IX", 9);
+		mapNumeralsRomans.put("XL", 10);
+		mapNumeralsRomans.put("XC", 50);
+		mapNumeralsRomans.put("CD", 100);
+		mapNumeralsRomans.put("CM", 900);
+		mapNumeralsRomans.put("M", 1000);
 	}
 
 	public int parse(String number) {
@@ -21,12 +28,14 @@ public class RomanNumeralParser {
 		String[] arrayRoman = number.split("");
 
 		int index = 0;
-
 		while (index < arrayRoman.length) {
 			if (index > 0) {
-				
 				if (mapNumeralsRomans.get(arrayRoman[index - 1]) < mapNumeralsRomans.get(arrayRoman[index])) {
-					total += mapNumeralsRomans.get(arrayRoman[index]) - mapNumeralsRomans.get(arrayRoman[index - 1]) - mapNumeralsRomans.get(arrayRoman[index - 1]);
+					if(mapNumeralsRomans.get(arrayRoman[index - 1].concat(arrayRoman[index])) == null) {
+						throw new IllegalArgumentException("Invalid number");
+					}
+					total += mapNumeralsRomans.get(arrayRoman[index]) - mapNumeralsRomans.get(arrayRoman[index - 1])
+							- mapNumeralsRomans.get(arrayRoman[index - 1]);
 				} else {
 					total += mapNumeralsRomans.get(arrayRoman[index]);
 				}
@@ -36,23 +45,6 @@ public class RomanNumeralParser {
 			index++;
 		}
 		return total;
-	}
-//When does a number has the same dozens another one
-	// MCMXCIX
-	public static int subtract(Integer[] numero) {
-		int total = 0;
-		Integer prev = numero[0];
-		for (int i = 0; i < numero.length; i++) {
-			if (numero[i] > prev) {
-				total = total + (numero[i] - prev);
-			} else {
-				total += numero[i];
-			}
-			prev = numero[i];
-
-		}
-		return total;
-
 	}
 
 }

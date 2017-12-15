@@ -29,7 +29,7 @@ public class RomanNumeralsTest {
 
 	@Test
 	public void testInvalidNumeral() {
-		assertEquals(99, parser.parse("IC"));
+		assertEquals(99, parser.parse("XCIX"));
 	}
 
 }
