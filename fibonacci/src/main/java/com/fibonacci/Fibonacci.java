@@ -6,7 +6,6 @@ import java.util.Map;
 public class Fibonacci {
 
 	private static Map<Integer, Integer> previousResult = new HashMap<>();
-	private static int count = 0;
 	public int nFibo(int n) {
 
 		if (n < 0) {
@@ -14,7 +13,6 @@ public class Fibonacci {
 		}
 
 		if (previousResult.get(n) != null) {
-			System.out.println(++count);
 			return previousResult.get(n);
 		}
 
