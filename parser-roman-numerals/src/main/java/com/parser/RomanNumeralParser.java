@@ -16,33 +16,53 @@ public class RomanNumeralParser {
 		mapNumeralsRomans.put("M", 1000);
 		mapNumeralsRomans.put("IV", 4);
 		mapNumeralsRomans.put("IX", 9);
-		mapNumeralsRomans.put("XL", 10);
-		mapNumeralsRomans.put("XC", 50);
-		mapNumeralsRomans.put("CD", 100);
+		mapNumeralsRomans.put("XL", 40);
+		mapNumeralsRomans.put("XC", 90);
+		mapNumeralsRomans.put("CD", 400);
 		mapNumeralsRomans.put("CM", 900);
-		mapNumeralsRomans.put("M", 1000);
 	}
 
-	public int parse(String number) {
-		int total = 0;
-		String[] arrayRoman = number.split("");
+//	public int parse(String number) {
+//		int total = 0;
+//		String[] arrayRoman = number.split("");
+//
+//		int index = 0;
+//		while (index < arrayRoman.length) {
+//			if (index > 0) {
+//				if (mapNumeralsRomans.get(arrayRoman[index - 1]) < mapNumeralsRomans.get(arrayRoman[index])) {
+//					if (mapNumeralsRomans.get(arrayRoman[index - 1].concat(arrayRoman[index])) == null) {
+//						throw new IllegalArgumentException("Invalid number");
+//					}
+//					total += mapNumeralsRomans.get(arrayRoman[index]) - mapNumeralsRomans.get(arrayRoman[index - 1])
+//							- mapNumeralsRomans.get(arrayRoman[index - 1]);
+//				} else {
+//					total += mapNumeralsRomans.get(arrayRoman[index]);
+//				}
+//			} else {
+//				total = mapNumeralsRomans.get(arrayRoman[index]);
+//			}
+//			index++;
+//		}
+//		return total;
+//	}
 
-		int index = 0;
-		while (index < arrayRoman.length) {
-			if (index > 0) {
-				if (mapNumeralsRomans.get(arrayRoman[index - 1]) < mapNumeralsRomans.get(arrayRoman[index])) {
-					if(mapNumeralsRomans.get(arrayRoman[index - 1].concat(arrayRoman[index])) == null) {
-						throw new IllegalArgumentException("Invalid number");
-					}
-					total += mapNumeralsRomans.get(arrayRoman[index]) - mapNumeralsRomans.get(arrayRoman[index - 1])
-							- mapNumeralsRomans.get(arrayRoman[index - 1]);
-				} else {
-					total += mapNumeralsRomans.get(arrayRoman[index]);
-				}
-			} else {
-				total = mapNumeralsRomans.get(arrayRoman[index]);
+	public int parse(String number) {
+		String[] numbers = number.split("");
+		int total = 0;
+		int diff;
+		int current;
+		int next;
+		for (int i = 0; i < numbers.length; i++) {
+			diff = 0;
+			current = mapNumeralsRomans.get(numbers[i]);
+			next = mapNumeralsRomans.get(numbers[i + 1]);
+			if (numbers.length - i >= 2 && current < next) {
+				diff = next - current;
+				total += diff;
+				++i;
+				continue;
 			}
-			index++;
+			total += mapNumeralsRomans.get(numbers[i]);
 		}
 		return total;
 	}
