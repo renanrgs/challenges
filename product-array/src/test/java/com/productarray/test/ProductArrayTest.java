@@ -15,5 +15,4 @@ public class ProductArrayTest {
 		int[] result = calculator.getArrayProduct(new int[] { 1, 7, 3, 4 });
 		assertArrayEquals(new int[]{84,  12, 28, 21}, result);
 	}
-
 }
