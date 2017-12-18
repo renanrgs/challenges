@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class RomanNumeralParser {
 
-	public static final Map<String, Integer> mapNumeralsRomans = new HashMap<>();
+	private static final Map<String, Integer> mapNumeralsRomans = new HashMap<>();
 	static {
 		mapNumeralsRomans.put("I", 1);
 		mapNumeralsRomans.put("V", 5);
@@ -22,49 +22,23 @@ public class RomanNumeralParser {
 		mapNumeralsRomans.put("CM", 900);
 	}
 
-//	public int parse(String number) {
-//		int total = 0;
-//		String[] arrayRoman = number.split("");
-//
-//		int index = 0;
-//		while (index < arrayRoman.length) {
-//			if (index > 0) {
-//				if (mapNumeralsRomans.get(arrayRoman[index - 1]) < mapNumeralsRomans.get(arrayRoman[index])) {
-//					if (mapNumeralsRomans.get(arrayRoman[index - 1].concat(arrayRoman[index])) == null) {
-//						throw new IllegalArgumentException("Invalid number");
-//					}
-//					total += mapNumeralsRomans.get(arrayRoman[index]) - mapNumeralsRomans.get(arrayRoman[index - 1])
-//							- mapNumeralsRomans.get(arrayRoman[index - 1]);
-//				} else {
-//					total += mapNumeralsRomans.get(arrayRoman[index]);
-//				}
-//			} else {
-//				total = mapNumeralsRomans.get(arrayRoman[index]);
-//			}
-//			index++;
-//		}
-//		return total;
-//	}
-
 	public int parse(String number) {
-		String[] numbers = number.split("");
+		String[] romanNumerals = number.split("");
 		int total = 0;
-		int diff;
-		int current;
-		int next;
-		for (int i = 0; i < numbers.length; i++) {
-			diff = 0;
-			current = mapNumeralsRomans.get(numbers[i]);
-			next = mapNumeralsRomans.get(numbers[i + 1]);
-			if (numbers.length - i >= 2 && current < next) {
-				diff = next - current;
-				total += diff;
+		for (int i = 0; i < romanNumerals.length; i++) {
+			if (romanNumerals.length - i >= 2 && mapNumeralsRomans.get(romanNumerals[i]) < mapNumeralsRomans.get(romanNumerals[i + 1])) {
+				total += getBase10Number(romanNumerals[i].concat(romanNumerals[i + 1]));
 				++i;
 				continue;
 			}
-			total += mapNumeralsRomans.get(numbers[i]);
+			total += mapNumeralsRomans.get(romanNumerals[i]);
 		}
 		return total;
 	}
 
+	private Integer getBase10Number(String number) {
+		if (mapNumeralsRomans.get(number) == null)
+			throw new IllegalArgumentException("Invalid roman numeral.");
+		return mapNumeralsRomans.get(number);
+	}
 }
