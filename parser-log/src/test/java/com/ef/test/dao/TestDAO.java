@@ -11,4 +11,9 @@ public class TestDAO {
 		fail("Not yet implemented");
 	}
 
+	@Test
+	public void blockIp() {
+		
+	}
+
 }
