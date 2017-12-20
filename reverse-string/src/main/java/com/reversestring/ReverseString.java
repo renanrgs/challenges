@@ -4,6 +4,8 @@ public class ReverseString {
 
 	// Renan
 	public static String reverse(String s) {
+		if(s == null || "".equals(s)) throw new IllegalArgumentException("The input cannot be empty or null.");
+		
 		char[] letters = s.toCharArray();
 		char aux;
 		for (int i = 0, j = letters.length - 1; i < letters.length/2; i++, j--) {
